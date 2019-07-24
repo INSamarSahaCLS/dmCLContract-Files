@@ -1,0 +1,45 @@
+<apex:page standardController="clcommon__Rule__c" extensions="INV_RuleEditorController"  doctype="html-5.0" lightningStylesheets="true" action="{!populateRulesList}">
+    <apex:include pageName="clcommon__mintTheme"/>
+    <apex:outputPanel id="collectionConfig">
+        <apex:sectionHeader title="{!IF(editMode, 'Rules - Edit', 'Rules - View')}"/>
+        <apex:form html-novalidate="novalidate">
+           
+            <apex:pageBlock rendered="true">   
+                <apex:pageBlockSection showHeader="true" title="Rule Details List" collapsible="true" columns="1">
+                    <apex:pageBlockTable value="{!RuleList}" var="rule" title="Rule">
+                        <apex:column headerValue="Edit | Delete">
+                            <apex:commandLink value="Edit"  action="{!editRule}">
+                                <apex:param name="RuleId" assignTo="{!ruleId}" value="{!rule.id}" />
+                            </apex:commandLink> |
+                            <apex:commandLink value=" Delete" action="{!deleteRule}" onclick="if(!confirm('Are you sure you want to delete?')){return false;}">
+                                <apex:param name="RuleId" assignTo="{!ruleDelId}" value="{!rule.id}" />
+                            </apex:commandLink>
+                        </apex:column>
+                        <apex:column headerValue="Name">
+                            <apex:commandLink value="{!rule.Name}" action="{!viewRule}">
+                                <apex:param name="RuleName" assignTo="{!ruleViewId}" value="{!rule.id}"/>
+                            </apex:commandLink>
+                        </apex:column>
+                        <apex:column headerValue="Object Type" value="{!rule.clcommon__Object_Type__c}">
+                        </apex:column>
+                        <apex:column headerValue="Rule Set Name" value="{!rule.clcommon__Rule_Set__r.Name}">
+                        </apex:column>
+                        <apex:column headerValue="Enabled" value="{!rule.clcommon__Enabled__c}">
+                        </apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageBlockSection>
+                <apex:outputText value="No records available." rendered="{!ruleList.size == 0}"></apex:outputText>
+            </apex:pageBlock>
+        </apex:form>
+        <apex:pageBlock id="ruleEngineID" rendered="{!isRuleRender}" >
+            <clcommon:RuleDetails selected_ID="{!ruleId}"
+                                  selected_ViewID="{!ruleViewId}"
+                                  ruleValidationClassName="RuleDetatilsPreSaveValidation"
+                                  static_Resource="INV_RuleConfiguration" 
+                                  function_Name="inv_clFunction" 
+                                  source_System="{!namespace}"
+                                  disabled_Namespace="True" >
+            </clcommon:RuleDetails>
+        </apex:pageBlock>
+    </apex:outputPanel>
+</apex:page>

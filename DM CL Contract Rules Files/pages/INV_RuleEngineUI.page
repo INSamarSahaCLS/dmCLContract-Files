@@ -1,0 +1,15 @@
+<apex:page doctype="html-5.0" lightningStylesheets="true" controller="INV_RuleEngineController">
+    <apex:include pageName="clcommon__mintTheme"/>
+ 
+        <apex:pageBlock id="ruleEngineID" rendered="true" >
+            <clcommon:RuleDetails ruleValidationClassName="RuleDetatilsPreSaveValidation" 
+                                  static_Resource="INV_RuleConfiguration" 
+                                  function_Name="inv_clFunction" 
+                                  source_System="{!namespace}"
+                                  disabled_Namespace="True" 
+                                   >
+            </clcommon:RuleDetails>
+        </apex:pageBlock>
+ 
+    <apex:outputlink value="/apex/INV_RuleEditor">Rule Management Tool</apex:outputlink>
+</apex:page>
